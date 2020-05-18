@@ -29,7 +29,7 @@ def process_values(cell_value, value_patterns, header_name):
             yield {
                 **match_info,
                 names.EXCLUDE: True,
-                names.EXCLUDE_REASON: 'Value is not part of the data set'
+                names.EXCLUDE_REASON: 'Value contains no data'
             }
 
         for m in matches:

@@ -1,14 +1,6 @@
 from app.helpers import names
 
 
-def exclude_non_values(data):
-    values = ['N/A', 'n/a', '-', '--', '---']
-    data.loc[data[names.RAW_VALUE].isin(values), names.EXCLUDE] = True
-    data.loc[data[names.RAW_VALUE].isin(values), names.EXCLUDE_REASON] = \
-        'Indicates no actual value exists'
-    return data
-
-
 def fix_typos(data):
     # Typo: Experiment PH342 Cell C10
     m = (data[names.POSITIVE] == 'i')
@@ -169,7 +161,6 @@ def clean(raw_data):
     data = data.astype(
         {names.POSITIVE: 'int64', names.TOTAL: 'int64'}, errors='ignore'
     )
-    data = exclude_non_values(data)
     data = fix_typos(data)
     data = fix_dot_delimiter(data)
     data = fix_missing_delimiter(data)
