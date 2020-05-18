@@ -1,0 +1,7 @@
+.venv/
+files/
+output/
+.ipynb_checkpoints/
+*.xlsx
+regex_testing.py
+notebook.ipynb
