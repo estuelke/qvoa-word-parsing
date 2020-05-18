@@ -1,0 +1,3 @@
+DEFAULT = rf"""^WOOHOO$"""
+
+PATTERNS = (DEFAULT,)
