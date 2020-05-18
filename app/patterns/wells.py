@@ -2,7 +2,6 @@ from app.helpers import names
 
 
 # Pattern Fragments
-
 WELL_NOTES = '|'.join((
     r'(?:all\s?|\d\s?)?s?molds?(?:\scont\.?)?',
     r'bbrx',
@@ -54,7 +53,7 @@ DEFAULT_WELL = rf"""^
 $"""
 
 WELL_NO_VALUE = rf"""^
-    (?P<{names.WELL_NOTE}>[\?\-*x]+(?:\s\(all\smold\))?|Mold|N\/?[AD])
+    (?P<{names.WELL_NOTE}>[\?\-\*x]+(?:\s\(all\smold\))?|Mold|N\/?[AD])
 $"""
 
 MULTIPLE_DATA_SETS = rf"""
@@ -80,8 +79,8 @@ MULTIPLE_POSITIVES = (
     $""",
 )
 
-EXPERIMENT_NOTE = rf"""^
-    (?P<{names.EXPERIMENT_NOTE}>1rst\sELISA.*?ABOVE)
+TABLE_NOTE = rf"""^
+    (?P<{names.TABLE_NOTE}>1rst\sELISA.*?ABOVE)
 $"""
 
 DILUTION_ONLY = rf"""^
@@ -94,7 +93,7 @@ DOUBLE_DILUTION = rf"""
 
 PATTERNS = (
     WELL_NO_VALUE,
-    EXPERIMENT_NOTE,
+    TABLE_NOTE,
     MULTIPLE_POSITIVES,
     DEFAULT_WELL,
     MULTIPLE_DATA_SETS,

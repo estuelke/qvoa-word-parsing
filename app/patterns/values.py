@@ -11,7 +11,7 @@ def compile_patterns(patterns):
                 tuple(re.compile(p, re.X | re.I) for p in pattern)
             )
         else:
-            compiled.append(re.compile(pattern, re.X | re.X))
+            compiled.append(re.compile(pattern, re.X | re.I))
 
     return tuple(compiled)
 
