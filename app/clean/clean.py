@@ -3,32 +3,6 @@ from app.helpers import names
 from app.clean import wells
 
 
-def clean_info(info):
-    info = info.copy()
-    info[names.EXTRA] = info.loc[:, names.EXTRA].apply(
-        lambda x: None if x == [None] else x
-    )
-
-    return info
-
-
-# def clean_iupms(data):
-#     cols = [names.IUPM, names.DRUG_CONDITION, names.CONC, names.UNITS]
-#     check = all(item in data.columns for item in cols)
-#     cols = cols if check else [names.IUPM]
-
-#     clean = data.dropna(
-#         how='all',
-#         subset=cols
-#     )
-
-#     clean = clean.loc[data[names.IUPM] != 'N/A']
-#     return {
-#         names.CLEAN: clean,
-#         names.QUARANTINED: get_quarantined(data, clean)
-#     }
-
-
 def exclude_partial_full_match_duplicates(data):
     keep_cols = [names.PH, names.CELL, names.HEADER_MATCH, names.VALUE_MATCH]
     all_matches = data.loc[:, keep_cols]
@@ -73,9 +47,7 @@ RESULTS_MAP = (
     {'name': names.DRUG_DATA, 'columns': [
             names.DRUG_CONDITION, names.CONC, names.UNITS, names.DRUG_NOTE
         ]},
-    {'name': names.INFO, 'header': names.INFO,
-        # 'clean': clean_info
-        },
+    {'name': names.INFO, 'header': names.INFO},
     {'name': names.IUPM_DATA, 'header': names.IUPM,
         'columns': [names.IUPM_MODIFIER, names.IUPM, names.IUPM_NOTE]},
     {'name': names.WELL_DATA, 'header': names.DILN, 'columns': [
@@ -115,6 +87,7 @@ def distribute_and_clean_data(raw_data):
         },
     }
 
+    # TODO: Refactor into 1+ smaller functions
     for result in RESULTS_MAP:
         columns = result.get('columns', [])
         header = result.get('header', None)

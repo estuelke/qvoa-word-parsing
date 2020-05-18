@@ -1,7 +1,7 @@
 import os
 import pandas as pd
 from openpyxl import load_workbook
-from app.data_clean import distribute_and_clean_data
+from app.clean.clean import distribute_and_clean_data
 from app.helpers import names
 from app.sheet import process_sheet
 
@@ -28,7 +28,7 @@ def process_files(filenames):
     print(f"All QVOA Tables files processed.")
 
 
-def extract_data(filenames):
+def process_data(filenames):
     data = process_files(filenames)
     data = pd.DataFrame(data)
     data = distribute_and_clean_data(data)

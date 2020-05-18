@@ -3,7 +3,7 @@ from datetime import datetime
 from app.helpers.helpers import add_tables
 
 
-# TODO: Update this method
+# TODO: Update this function when ready to export final data
 def export_data(data):
     time = datetime.now()
     timestamp = time.strftime('%y%m%d_%H%M%S')
@@ -20,7 +20,8 @@ def export_data(data):
                     df.to_excel(writer, sheet_name=table, index=False)
                 print(f"Table {table} exported")
             else:
-                name = f"{category[0:4]}_{table[0:4]}_{stage[0:4]}" if stage != 'Raw' else f"{category[0:4]}_{table[0:4]}"
+                name = f"{category[0:4]}_{table[0:4]}_{stage[0:4]}" \
+                    if stage != 'Raw' else f"{category[0:4]}_{table[0:4]}"
                 df.to_excel(writer, sheet_name=name, index=False)
                 print(f"Table {name} exported")
 
@@ -28,6 +29,7 @@ def export_data(data):
     print('Finished')
 
 
+# TODO: Finish function when ready for final data export
 def export_table(table, filename, columns=None, filter_rows=None):
     if filter_rows:
         table = table[filter_rows]
