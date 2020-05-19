@@ -1,6 +1,7 @@
 import os
 import pandas as pd
 from openpyxl import load_workbook
+from tqdm.notebook import tqdm
 from app.clean.clean import distribute_and_clean_data
 from app.helpers import names
 from app.sheet import process_sheet
@@ -16,16 +17,13 @@ def process_file(wb, filename):
 
 def process_files(filenames):
 
-    for filename in filenames:
+    for filename in tqdm(filenames):
         wb = load_workbook(filename)
 
         head, tail = os.path.split(filename)
         fn, ext = os.path.splitext(tail)
 
         yield from process_file(wb, fn)
-
-    # Used as reference point when viewing in Jupyter
-    print(f"All QVOA Tables files processed.")
 
 
 def process_data(filenames):
