@@ -1,4 +1,8 @@
+import re
 from app.helpers import names
+
+FIX_DOT_DELIMITER = re.compile(r'(?P<Positive>\d)\.(?P<Total>\d)')
+FIX_MISSING_DELIMITER = re.compile(r'(?P<Positive>[04]|12)(?P<Total>6|18)')
 
 
 def fix_typos(data):
@@ -44,9 +48,7 @@ def fix_dot_delimiter(data):
         data[names.PH].isin(phs) & data[names.UNMATCHED].notna()].index
 
     data.loc[index, [names.POSITIVE, names.TOTAL]] = \
-        data.loc[index][names.UNMATCHED].str.extract(
-            r'(?P<Positive>\d)\.(?P<Total>\d)'
-        )
+        data.loc[index][names.UNMATCHED].str.extract(FIX_DOT_DELIMITER)
 
     data.loc[index, names.UNMATCHED] = None
     data.loc[index, names.VALUE_MATCH] = 'FULL'
@@ -62,9 +64,7 @@ def fix_missing_delimiter(data):
         data[names.PH].isin(phs) & data[names.UNMATCHED].notna()].index
 
     data.loc[index, [names.POSITIVE, names.TOTAL]] = \
-        data.loc[index][names.UNMATCHED].str.extract(
-            r'(?P<Positive>[04]|12)(?P<Total>6|18)'
-    )
+        data.loc[index][names.UNMATCHED].str.extract(FIX_MISSING_DELIMITER)
 
     data.loc[index, names.UNMATCHED] = None
     data.loc[index, names.VALUE_MATCH] = 'FULL'

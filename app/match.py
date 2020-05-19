@@ -2,7 +2,7 @@ import re
 from app.helpers import names
 
 
-EXTRA = r'[\&\+\/\s\-\)\(\–,]'
+EXTRA = r'[\s&,+/()–-]'
 THROWAWAY_VALUES = '|'.join((
     r'cells',
     rf"Condition{EXTRA}*Day",
@@ -48,7 +48,6 @@ def replace_problematic_characters(value):
     for character, replacment in UNICODES.items():
         value = re.sub(character, replacment, value)
 
-    value = re.sub(r'\n', ' ', value)
     value = re.sub(r'\s+', ' ', value)
     return value
 
@@ -63,8 +62,8 @@ def match(value, pattern_list):
     if not value:
         return None
 
-    pattern_list = pattern_list if isinstance(
-        pattern_list, tuple) else (pattern_list,)
+    if not isinstance(pattern_list, tuple):
+        pattern_list = (pattern_list,)
 
     value = replace_problematic_characters(value)
     matched_dicts = []
