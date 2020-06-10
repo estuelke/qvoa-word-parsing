@@ -43,7 +43,7 @@ DRUGS = '|'.join((
     r'LN?FN?B',
     r'LY(?:-B)?',
     r'(?:(?:BTX|Lonza|Neon|T\d)\s)?Luci(?:ferase)?(?:\ssiRNA)?',
-    r'M17',
+    r'(?<!J)M17(?!95)',
     r'Medi(?:a|um)',
     r'\bMe?R?c?K[\s\-]*L?\s*\d+\b',
     r'MOO1',

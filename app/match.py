@@ -12,6 +12,7 @@ THROWAWAY_VALUES = '|'.join((
     r'each',
     r'IUPMs?',
     r'million\scells\/ml',
+    r'Mullins',
     r'N\/A',
     rf"{names.TABLE_NOTE}:",
     r'or',

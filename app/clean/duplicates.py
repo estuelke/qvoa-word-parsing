@@ -9,7 +9,7 @@ def get_min_indices(grp, criteria_col):
     return grp.loc[grp[criteria_col] == grp[criteria_col].min()]
 
 
-def annotate_duplicate_results(
+def annotate_duplicates_with_different_results(
     data,
     subset,
     criteria_col,
@@ -50,11 +50,11 @@ def annotate_duplicate_results(
     return data
 
 
-def annotate_duplicated_results(data):
+def annotate_duplicates_with_same_results(data, criteria_cols, annotation=None):
     """
     Annotates rows with duplicated data (data same in both rows)
     """
-    cols = [names.PH, names.COL_ID, names.ROW_ID, names.POSITIVE, names.TOTAL]
+    cols = [names.PH, names.COL_ID, names.ROW_ID, *criteria_cols]
 
     dupe_data = data.loc[data[names.VALUE_MATCH] == 'FULL', cols]
     dupe_data = dupe_data.dropna(how='any', subset=cols)
@@ -62,5 +62,22 @@ def annotate_duplicated_results(data):
     indices = dupe_data[dupe_data].index
 
     data.loc[indices, names.WELL_QC] = \
-        'Data was duplicated in original document'
+        annotation if annotation else 'Data duplicated in original document'
+    return data
+
+
+def exclude_duplicated_results(data, criteria_cols):
+    """
+    Excludes any rows that are duplicates based on the criteria cols
+    """
+    cols = [names.PH, names.COL_ID, names.ROW_ID, *criteria_cols]
+
+    dupe_data = data.loc[data[names.VALUE_MATCH] == 'FULL', cols]
+    dupe_data = dupe_data.duplicated(subset=cols, keep='first')
+    indices = dupe_data[dupe_data].index
+
+    data.loc[indices, [names.WELL_QC, names.EXCLUDE_REASON]] = \
+        'Duplicate data row likely due to multiple matching'
+    data.loc[indices, names.EXCLUDE] = True
+    print(dupe_data)
     return data

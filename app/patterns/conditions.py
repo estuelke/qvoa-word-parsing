@@ -8,7 +8,7 @@ MOUSE = rf"""^
 $"""
 
 MULLINS = rf"""^
-    (?P<{names.SAMPLE_ID}>(JM|Mullins)\s*\d+)
+    (?P<{names.SAMPLE_ID}>(?:JM|Mullins)\s*\d+)
     \s*(?:cells|\(Mullins\))?\s*
     (?P<{names.DRUG_CONDITION}>PHA)?
 $"""

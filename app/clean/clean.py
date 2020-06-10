@@ -1,5 +1,5 @@
 from app.helpers import names
-from app.clean import all_data, iupms, wells
+from app.clean import all_data, drugs, iupms, wells
 
 
 DEFAULT_COLUMNS = [
@@ -23,7 +23,8 @@ RESULTS_MAP = (
     {'name': names.DILUTION_DATA, 'columns': [names.DILN, names.DILUTION_QC]},
     {'name': names.DRUG_DATA, 'columns': [
             names.DRUG_CONDITION, names.CONC, names.UNITS, names.DRUG_NOTE
-        ]},
+        ],
+        'clean': drugs.clean},
     {'name': names.INFO, 'header': names.INFO},
     {'name': names.IUPM_DATA, 'header': names.IUPM,
         'columns': [names.IUPM_MODIFIER, names.IUPM, names.IUPM_NOTE],
@@ -48,6 +49,15 @@ def filter_results(data, columns, header):
     return data
 
 
+def remove_excluded_rows(clean, raw):
+    excluded_indexes = clean.loc[clean[names.EXCLUDE].notna()].index
+    raw.loc[excluded_indexes, [names.EXCLUDE, names.EXCLUDE_REASON]] = \
+        clean[[names.EXCLUDE, names.EXCLUDE_REASON]]
+    clean = clean.loc[clean[names.EXCLUDE].isna()]
+
+    return clean, raw
+
+
 def distribute_and_clean_data(raw_data):
     data = all_data.clean(raw_data)
 
@@ -69,13 +79,9 @@ def distribute_and_clean_data(raw_data):
 
         if clean_func:
             clean_data = clean_func(clean_data)
-            excluded_indexes = clean_data.loc[
-                clean_data[names.EXCLUDE].notna()
-            ].index
-            result_raw_data.loc[
-                excluded_indexes, [names.EXCLUDE, names.EXCLUDE_REASON]] = \
-                clean_data[[names.EXCLUDE, names.EXCLUDE_REASON]]
-            clean_data = clean_data.loc[clean_data[names.EXCLUDE].isna()]
+            clean_data, result_raw_data = remove_excluded_rows(
+                clean_data, result_raw_data
+            )
 
         name = result['name']
         final[name] = {
