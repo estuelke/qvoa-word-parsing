@@ -1,16 +1,10 @@
 from app.helpers import names
+from app.clean.duplicates import annotate_duplicate_results
 
 
-# TODO: Refactor this method once all IUPM data has been matched
-def clean_iupms(data):
-    cols = [names.IUPM, names.DRUG_CONDITION, names.CONC, names.UNITS]
-    check = all(item in data.columns for item in cols)
-    cols = cols if check else [names.IUPM]
-
-    clean = data.dropna(
-        how='all',
-        subset=cols
-    )
-
-    clean = clean.loc[data[names.IUPM] != 'N/A']
-    return clean
+def clean(raw_data):
+    data = raw_data.copy()
+    data = data.astype({names.IUPM: float}, errors='ignore')
+    data = annotate_duplicate_results(
+        data, [names.IUPM], names.IUPM, names.IUPM_QC)
+    return data

@@ -3,7 +3,7 @@ from app.helpers import names
 IUPM = rf"""^
     (?P<{names.IUPM_MODIFIER}>\<|\>)?
     \s*
-    (?P<{names.IUPM}>\d*\.\d+(?:e105|E\-05)?|N\/A|[\-]+|X)
+    (?P<{names.IUPM}>\d*\.\d+(?:e105|E\-05)?)
     \s*
     \(?
     (?P<{names.IUPM_NOTE}>
@@ -14,8 +14,14 @@ IUPM = rf"""^
     \)?
 $"""
 
-IUPM_TABLE_NOTE = rf"""^
-    (?P<{names.TABLE_NOTE}>Old\sMethod\sIUPM)
-$"""
+DOUBLE_IUPM = rf"""
+    (?P<{names.IUPM_MODIFIER}>\<|\>)?
+    \s*
+    (?P<{names.IUPM}>\d*\.\d+)\s?(?=[\(\)])
+"""
 
-PATTERNS = (IUPM, IUPM_TABLE_NOTE)
+IUPM_TABLE_NOTE = rf"^(?P<{names.TABLE_NOTE}>Old\sMethod\sIUPM)$"
+
+WELL = rf"^(?P<{names.POSITIVE}>\d+|i)\/(?P<{names.TOTAL}>\d+)$"
+
+PATTERNS = (IUPM, IUPM_TABLE_NOTE, WELL, DOUBLE_IUPM)

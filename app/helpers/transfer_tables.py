@@ -107,6 +107,8 @@ for table in masterfile.tables:
         file_counter += 1
         wb = Workbook()
         sheet_counter = 1
+if sheet_counter > 1:
+    wb.save(f"files/QVOA_Tables_{file_counter:02}.xlsx")
 
 df = pd.DataFrame(tables)
 df.to_excel('Errors to Manually Fix.xlsx')
