@@ -1,4 +1,4 @@
-import re
+import regex as re
 from app.helpers import names
 from app.patterns import conditions, drugs, info, iupms, wells
 
