@@ -50,7 +50,9 @@ def annotate_duplicates_with_different_results(
     return data
 
 
-def annotate_duplicates_with_same_results(data, criteria_cols, annotation=None):
+def annotate_duplicates_with_same_results(
+    data, criteria_cols, annotation=None
+):
     """
     Annotates rows with duplicated data (data same in both rows)
     """
