@@ -1,6 +1,6 @@
 from app.helpers import names
 from app.patterns.headers import PATTERN_MAP
-from app.match import capture_matches, match, header_match
+from app.match import capture_matches, header_match
 
 
 def process_values(cell_value, value_patterns, header_name):
