@@ -2,7 +2,7 @@ import re
 from app.helpers import names
 from app.patterns.values import (
     CONDITION_PATTERNS, DAY_PATTERNS, INFO_PATTERNS, IUPM_PATTERNS,
-    TABLE_NOTE_PATTERNS, WELL_PATTERNS
+    NO_HEADER_PATTERNS, TABLE_NOTE_PATTERNS, WELL_PATTERNS
 )
 
 CONDITION = re.compile(r'.*?Million|cor|Dilution\s*\([Mm]illion\)')
@@ -22,6 +22,7 @@ TABLE_NOTE = re.compile(rf"""
     ^.new.\sUNC\smethod\sas\sper\sRFS|
     ^Old\sUTSW\smethods\s
 """, re.X | re.I)
+NO_HEADER = re.compile(r'NO\sHEADER')
 
 PATTERN_MAP = (
     {
@@ -53,5 +54,10 @@ PATTERN_MAP = (
         'name': names.TABLE_NOTE,
         'pattern': TABLE_NOTE,
         'value_patterns': TABLE_NOTE_PATTERNS
+    },
+    {
+        'name': names.NO_HEADER,
+        'pattern': NO_HEADER,
+        'value_patterns': NO_HEADER_PATTERNS
     }
 )

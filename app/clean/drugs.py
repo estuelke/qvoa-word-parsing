@@ -21,7 +21,6 @@ def fix_unmatched_values(data):
     data.loc[indices, names.DRUG_QC] = \
         'Removed unmatched value because value was redundant'
 
-    print(data.loc[indices])
     return data
 
 
