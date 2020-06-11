@@ -105,7 +105,6 @@ def distribute_and_clean_data(raw_data):
         },
     }
 
-    # TODO: Refactor into 1+ smaller functions
     for result in RESULTS_MAP:
         columns = result.get('columns', [])
         header = result.get('header', None)

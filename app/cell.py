@@ -48,9 +48,6 @@ def process_values(cell_value, value_patterns, header_name):
 def process_cell(header, cell_value):
     if not header:
         header = names.NO_HEADER
-        # TODO: Process headerless cell
-        # yield {names.HEADER_MATCH: 'NO HEADER', names.UNMATCHED: cell_value}
-        # return
 
     for header_state in PATTERN_MAP:
         header_pattern = header_state['pattern']
