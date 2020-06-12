@@ -81,5 +81,4 @@ def exclude_duplicated_results(data, criteria_cols):
     data.loc[indices, [names.WELL_QC, names.EXCLUDE_REASON]] = \
         'Duplicate data row likely due to multiple matching'
     data.loc[indices, names.EXCLUDE] = True
-    print(dupe_data)
     return data

@@ -10,10 +10,9 @@ UNMATCHED_DRUG_VALUES = re.compile(
 
 
 def fix_unmatched_values(data):
-    unmatched = data.copy()
-    unmatched = unmatched.loc[unmatched[names.UNMATCHED].notna()]
+    unmatched = data.loc[data[names.UNMATCHED].notna()]
 
-    m1 = (unmatched[names.UNMATCHED].str.contains(UNMATCHED_DRUG_VALUES))
+    m1 = unmatched[names.UNMATCHED].str.contains(UNMATCHED_DRUG_VALUES)
     indices = unmatched[m1].index
 
     data.loc[indices, names.VALUE_MATCH] = 'FULL'

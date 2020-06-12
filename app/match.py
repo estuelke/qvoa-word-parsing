@@ -62,7 +62,7 @@ def header_match(header, pattern):
     return pattern.match(header)
 
 
-def match(value, pattern_list):
+def match(value, pattern_tuple):
     """
     Replaced by the capture_matches function below since re has been replaced
     by regex.  Leaving this function in case it needs to be used in the future
@@ -70,14 +70,14 @@ def match(value, pattern_list):
     if not value:
         return None
 
-    if not isinstance(pattern_list, tuple):
-        pattern_list = (pattern_list,)
+    if not isinstance(pattern_tuple, tuple):
+        pattern_tuple = (pattern_tuple,)
 
     value = replace_problematic_characters(value)
     matched_dicts = []
     matched_values = []
 
-    for pattern in pattern_list:
+    for pattern in pattern_tuple:
         matches = pattern.finditer(value)
 
         for m in matches:
@@ -95,15 +95,13 @@ def match(value, pattern_list):
         return {names.UNMATCHED: get_unmatched_values(value)}
 
 
-def get_unmatched_capture_values(original, matched_values=None):
+def get_unmatched_capture_values(unmatched, matched_values=None):
     """
     Slightly refactored version of the get_unmatched_values functions. This
     function is used for the capture_matches function.
     """
     if not matched_values:
         return None
-
-    unmatched = original
 
     matched_values.sort(key=len, reverse=True)
 
@@ -114,7 +112,7 @@ def get_unmatched_capture_values(original, matched_values=None):
     return unmatched
 
 
-def capture_matches(value, pattern_list):
+def capture_matches(value, pattern_tuple):
     """
     Replaces the above match function. Uses the capturesdict functionality
     of the regex library.
@@ -122,14 +120,14 @@ def capture_matches(value, pattern_list):
     if not value:
         return None
 
-    if not isinstance(pattern_list, tuple):
-        pattern_list = (pattern_list,)
+    if not isinstance(pattern_tuple, tuple):
+        pattern_tuple = (pattern_tuple,)
 
     value = replace_problematic_characters(value)
     matched_dicts = []
     matched_values = []
 
-    for pattern in pattern_list:
+    for pattern in pattern_tuple:
         matches = pattern.finditer(value)
 
         for m in matches:
