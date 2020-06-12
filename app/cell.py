@@ -1,6 +1,6 @@
 from app.helpers import names
 from app.patterns.headers import PATTERN_MAP
-from app.match import match, header_match
+from app.match import capture_matches, header_match
 
 
 def process_values(cell_value, value_patterns, header_name):
@@ -8,7 +8,7 @@ def process_values(cell_value, value_patterns, header_name):
         return
 
     for pattern in value_patterns:
-        matched_data = match(cell_value, pattern)
+        matched_data = capture_matches(cell_value, pattern)
 
         matches = matched_data.get(names.MATCHED, [])
         unmatched = matched_data[names.UNMATCHED]
@@ -47,9 +47,7 @@ def process_values(cell_value, value_patterns, header_name):
 
 def process_cell(header, cell_value):
     if not header:
-        # TODO: Process headerless cell
-        yield {names.HEADER_MATCH: 'NO HEADER', names.UNMATCHED: cell_value}
-        return
+        header = names.NO_HEADER
 
     for header_state in PATTERN_MAP:
         header_pattern = header_state['pattern']
